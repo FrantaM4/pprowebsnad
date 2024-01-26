@@ -3,6 +3,7 @@ package com.ppro.pproprojectfinal.controller;
 
 import com.ppro.pproprojectfinal.model.Location;
 import com.ppro.pproprojectfinal.model.LocationRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

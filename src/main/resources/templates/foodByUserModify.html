@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>managerView</title>
+    <link rel="stylesheet" href="style.css"> <!-- Include your custom style file -->
+</head>
+<body>
+
+<div class="simple-container">
+
+
+
+
+    <form action="/foodListProcess" method="post">
+        <h2>Select Items:</h2>
+        <ul>
+            <!-- Use th:each to iterate over the itemList -->
+            <li th:each="food : ${itemList}">
+                <!-- Create a checkbox for each item -->
+                <input type="checkbox" th:id="${'itemCheckbox-' + #strings.replace(food.getId(), ' ', '_')}"
+                       th:name="selectedItems" th:value="${food.getId()}" />
+                <label th:for="${'itemCheckbox-' + #strings.replace(food.getId(), ' ', '_')}" th:text="${food.getFoodName()}"></label>
+            </li>
+        </ul>
+            <a href="/foodListProcess"><button class="return-button" type="submit">Uložit změny</button></a>
+
+    </form>
+</div>
+
+</body>
+</html>

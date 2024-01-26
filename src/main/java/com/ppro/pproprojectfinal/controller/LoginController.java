@@ -57,6 +57,7 @@ public class LoginController {
         session.setAttribute("roleID",user.getRoleID());
         session.setAttribute("locationName",tempLokace);
         session.setAttribute("locationID",user.getLocationID());
+        session.setAttribute("userID",user.getId());
 
         if (user != null && password.equals(user.getUserPw())) {
             if (user.getRoleID() == 1){
