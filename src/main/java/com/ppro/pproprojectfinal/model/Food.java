@@ -14,6 +14,10 @@ public class Food{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Long getId() {
+        return id;
+    }
+
     private String foodName;
     private String foodDescription;
 
@@ -22,6 +26,12 @@ public class Food{
     private Date foodDate;
 
     private Integer locationID;
+
+    private Integer portionNumber = 0;
+
+    public Integer getPortionNumber() {
+        return portionNumber;
+    }
 
     public String getFoodName() {
         return foodName;
@@ -61,5 +71,19 @@ public class Food{
 
     public void setLocationID(Integer locationID) {
         this.locationID = locationID;
+    }
+
+    public void setPortionNumber(Integer portionNumber) {
+        this.portionNumber = portionNumber;
+    }
+
+
+    public void addPortion(){
+        this.portionNumber+=1;
+    }
+
+    public void removePortion(){
+        if (this.portionNumber > 0)
+            this.portionNumber-=1;
     }
 }

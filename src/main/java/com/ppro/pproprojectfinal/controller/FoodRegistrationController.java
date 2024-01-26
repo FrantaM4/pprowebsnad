@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Controller
-@RequestMapping("/formSubmitFood")
+@RequestMapping()
 public class FoodRegistrationController{
 
     @Autowired
     FoodRepository foodRepository;
 
-    @PostMapping()
+    @PostMapping("/formSubmitFood")
     public String createFood(@RequestParam String foodName,
                              @RequestParam Date foodDate,
                              @RequestParam Integer foodPrice,
@@ -31,8 +32,28 @@ public class FoodRegistrationController{
         food.setFoodPrice(foodPrice);
         food.setFoodDescription(foodDescription);
         food.setLocationID(1);
+        food.setPortionNumber(0);
         foodRepository.save(food);
+
         return "redirect:/managerView";
+    }
+
+    @PostMapping("/foodListProcess")
+    public String processFoodList(@RequestParam(name = "selectedItems", required = false) List<String> selectedItems) {
+        if (selectedItems != null) {
+
+            for(String foodID : selectedItems){
+
+                System.out.println(foodID);
+                Food food = foodRepository.findByid(Integer.parseInt(foodID));
+                food.addPortion();
+                foodRepository.save(food);
+
+            }
+        } else {
+            System.out.println("No items selected");
+        }
+        return "redirect:/welcome";
     }
 
 }

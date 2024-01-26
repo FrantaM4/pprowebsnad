@@ -9,9 +9,20 @@
 <body>
 
 <div class="simple-container">
-    <h2>TODO USer, add something like name </h2>
+    <h2>Vítej <span th:text="${username}"></span>, v roli: <span th:text="${role}"></span>, ládování v: <span th:text="${locationName}"></span> </h2>
 
     <a href="/welcome"><button class="top-right-button">TODO poradny logout</button></a>
+
+    <form action="/foodListProcess" method="post">
+
+    <ul>
+        <li th:each="food : ${foodList}">
+            <input type="checkbox" th:id="${'checkbox-' + food.getId()}" th:name="selectedItems" th:value="${food.getId()}" />
+            <label th:for="${'checkbox-' + food.getId()}" th:text="${food.getFoodName()}"></label>
+        </li>
+    </ul>
+        <button type="submit">Uložení změn</button>
+    </form>
 
     <div class="middle-buttons">
 
