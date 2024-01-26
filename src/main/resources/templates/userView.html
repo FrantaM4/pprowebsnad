@@ -11,18 +11,12 @@
 <div class="simple-container">
     <h2>Vítej <span th:text="${username}"></span>, v roli: <span th:text="${role}"></span>, ládování v: <span th:text="${locationName}"></span> </h2>
 
-    <a href="/welcome"><button class="top-right-button">TODO poradny logout</button></a>
+    <a href="/logout"><button class="top-right-button">TODO poradny logout</button></a>
 
-    <form action="/foodListProcess" method="post">
+    <h2>Dnešní pochoutka: <span th:text="${todayFood}"></span></h2>
 
-    <ul>
-        <li th:each="food : ${foodList}">
-            <input type="checkbox" th:id="${'checkbox-' + food.getId()}" th:name="selectedItems" th:value="${food.getId()}" />
-            <label th:for="${'checkbox-' + food.getId()}" th:text="${food.getFoodName()}"></label>
-        </li>
-    </ul>
-        <button type="submit">Uložení změn</button>
-    </form>
+    <a href="/viewUserFoods"><button class="return-button">Zobrazit vaše objednávky</button></a>
+    <a href="/manageFoods"><button class="return-button">Překopat obědnávky</button></a>
 
     <div class="middle-buttons">
 

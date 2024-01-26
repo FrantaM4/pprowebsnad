@@ -22,6 +22,7 @@ public class User {
         this.userPw = password;
         this.locationID = locationID;
         this.roleID = roleID;
+
     }
 
     public Long getId() {

@@ -1,23 +1,23 @@
 package com.ppro.pproprojectfinal.controller;
 
 
-import com.ppro.pproprojectfinal.model.*;
+import com.ppro.pproprojectfinal.model.Location;
+import com.ppro.pproprojectfinal.model.LocationRepository;
+import com.ppro.pproprojectfinal.model.User;
+import com.ppro.pproprojectfinal.model.UserRepository;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 @RequestMapping()
 public class LoginController {
-
 
     @Autowired
     UserRepository userRepository;
@@ -26,10 +26,10 @@ public class LoginController {
     LocationRepository locationRepository;
 
 
-
     @PostMapping("/loginGet")
-    public String loginUser(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes) {
+    public String loginUser(@RequestParam String username, @RequestParam String password, HttpSession session) {
         User user = userRepository.findByUsername(username);
+
         String tempRole ="";
         String tempLokace ="";
 
@@ -47,18 +47,19 @@ public class LoginController {
                 tempRole = "Uživatel";
                 break;
         }
+
         Location location = locationRepository.findByid(user.getLocationID());
 
         tempLokace= location.getLocationName();
 
-        redirectAttributes.addAttribute("username",user.getUsername());
-        redirectAttributes.addAttribute("role",tempRole);
-        redirectAttributes.addAttribute("locationName",tempLokace);
-        redirectAttributes.addAttribute("locationID",user.getLocationID());
+        session.setAttribute("username",username);
+        session.setAttribute("role",tempRole);
+        session.setAttribute("roleID",user.getRoleID());
+        session.setAttribute("locationName",tempLokace);
+        session.setAttribute("locationID",user.getLocationID());
 
         if (user != null && password.equals(user.getUserPw())) {
             if (user.getRoleID() == 1){
-
                 return "redirect:/adminView";
             }
 
@@ -76,14 +77,14 @@ public class LoginController {
             }
             return "redirect:/welcome";
         } else {
-            // Failed login, handle appropriately (e.g., show error message)
+             //Failed login, handle appropriately (e.g., show error message)
             return "redirect:/login?error";
         }
-
-
-
-
     }
-
+    @GetMapping("/logout")
+    public String welcome(HttpSession session) {
+        session.invalidate();
+        return "welcome";
+    }
 
 }
