@@ -27,6 +27,10 @@ public class LoginController {
                 return "redirect:/adminView";
             if (user.getRoleID() == 2)
                 return "redirect:/managerView";
+            if (user.getRoleID() == 3)
+                return "redirect:/employeeView";
+            if (user.getRoleID() == 4)
+                return "redirect:/userView";
             return "redirect:/welcome";
         } else {
             // Failed login, handle appropriately (e.g., show error message)

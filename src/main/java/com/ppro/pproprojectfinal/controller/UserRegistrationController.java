@@ -23,7 +23,7 @@ public class UserRegistrationController {
         user.setUsername(username);
         user.setUserPw(userPw);
         user.setLocationID(locationID);
-        user.setRoleID(5);
+        user.setRoleID(4);
         userRepository.save(user);
         return "redirect:/welcome";
     }

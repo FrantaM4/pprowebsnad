@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #333; /* Dark text color */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 10px;
+            color: #607d8b; /* Blue-greyish color for labels */
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 300px;
+            font-size: 16px;
+            border: 1px solid #ccc; /* Light border color */
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #2196F3; /* Blue color */
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1565c0; /* Darker shade on hover */
+        }
+
+        .back-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h2>Registrační formulář</h2>
+
+<form action="/formSubmitFood" method="post">
+
+    <label for="foodName">Název Jídla:</label>
+    <input type="text" id="foodName" name="foodName" required>
+
+    <label for="foodDate">Datum podávání jídla:</label>
+    <input type="date" id="foodDate" name="foodDate" required>
+
+    <label for="foodPrice">Cena jídla (zadávat v kč):</label>
+    <input type="number" id="foodPrice" name="foodPrice" required>
+
+    <label for="foodDescription">Popis jídla:</label>
+    <textarea id="foodDescription" name="foodDescription" rows="auto" cols="auto" placeholder="Zadejte popis jídla..."></textarea>
+
+    <button type="submit">Registrace</button>
+</form>
+
+
+<script>
+    // Get today's date in the "YYYY-MM-DD" format
+    const today = new Date().toISOString().split('T')[0];
+
+    // Set the min attribute of the date input to today
+    document.getElementById('foodDate').setAttribute('min', today);
+</script>
+
+<a class="back-button" th:href="@{/managerView}"><button>Zrušení registrace</button></a>
+</body>
+</html>

@@ -31,6 +31,16 @@ public class WebController {
         return "managerview";
     }
 
+    @GetMapping("/userView")
+    public String userPage() {
+        return "userView";
+    }
+
+    @GetMapping("/employeeView")
+    public String employeePage() {
+        return "employeeView";
+    }
+
     @GetMapping("/locationRegistrationForm")
     public String locationRegistrationForm() {
         return "locationRegistrationForm";
@@ -45,4 +55,10 @@ public class WebController {
     public String employeeRegistrationForm() {
         return "employeeRegistrationForm";
     }
+
+    @GetMapping("/foodRegistrationForm")
+    public String foodRegistrationForm() {
+        return "foodRegistrationForm";
+    }
+
 }
