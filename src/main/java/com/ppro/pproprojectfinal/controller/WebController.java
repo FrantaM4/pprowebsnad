@@ -20,4 +20,29 @@ public class WebController {
     public String registrationForm() {
         return "registrationForm";
     }
+
+    @GetMapping("/adminView")
+    public String adminPage() {
+        return "adminview";
+    }
+
+    @GetMapping("/managerView")
+    public String managerPage() {
+        return "managerview";
+    }
+
+    @GetMapping("/locationRegistrationForm")
+    public String locationRegistrationForm() {
+        return "locationRegistrationForm";
+    }
+
+    @GetMapping("/managerRegistrationForm")
+    public String managerRegistrationForm() {
+        return "managerRegistrationForm";
+    }
+
+    @GetMapping("/employeeRegistrationForm")
+    public String employeeRegistrationForm() {
+        return "employeeRegistrationForm";
+    }
 }

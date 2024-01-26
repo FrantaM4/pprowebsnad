@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Ládovna</title>
+    <title>Registration</title>
 
     <style>
         body {
@@ -19,27 +19,33 @@
         }
 
         h2 {
-            font-size: 48px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #333; /* Dark text color */
         }
 
-        div {
+        form {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
         }
 
-        a {
-            text-decoration: none;
-            margin: 0 10px;
+        label {
+            margin-bottom: 10px;
+            color: #607d8b; /* Blue-greyish color for labels */
         }
 
-
+        input {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 300px;
+            font-size: 16px;
+            border: 1px solid #ccc; /* Light border color */
+            border-radius: 5px;
+        }
 
         button {
-            background-color: #2196F3; /* More blue color */
+            background-color: #2196F3; /* Blue color */
             color: white;
             padding: 10px 20px;
             font-size: 16px;
@@ -53,17 +59,22 @@
             background-color: #1565c0; /* Darker shade on hover */
         }
 
-
-
+        .back-button {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-<h2>Vítej do Ládovny</h2>
+<h2>Registrační formulář</h2>
 
-<div>
-    <a th:href="@{/login}"><button>Login</button></a>
-    <a th:href="@{/registration}"><button>Registrace</button></a>
+<form action="/formSubmitLocation" method="post">
 
-</div>
+    <label for="locationName">Název Lokace:</label>
+    <input type="text" id="locationName" name="locationName" required>
+
+    <button type="submit">Registrace</button>
+</form>
+
+<a class="back-button" th:href="@{/adminview}"><button>Zrušení registrace</button></a>
 </body>
 </html>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Registration</title>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,20 +18,10 @@
             justify-content: center;
         }
 
-        .login-container {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-            margin: auto;
-        }
-
         h2 {
             font-size: 36px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            color: #333; /* Dark text color */
         }
 
         form {
@@ -47,7 +38,7 @@
         input {
             padding: 10px;
             margin-bottom: 20px;
-            width: 100%;
+            width: 300px;
             font-size: 16px;
             border: 1px solid #ccc; /* Light border color */
             border-radius: 5px;
@@ -68,35 +59,33 @@
             background-color: #1565c0; /* Darker shade on hover */
         }
 
-        .return-button {
-            background-color: #e0e0e0; /* Light grey color */
-            color: #333;
-            margin-top: 10px;
+        .back-button {
+            margin-top: 20px;
         }
-
-        .return-button:hover {
-            background-color: #ccc; /* Slightly darker shade on hover */
-        }
-        </style>
-
+    </style>
 </head>
 <body>
+<h2>Registrační formulář</h2>
 
-<div class="login-container">
-    <h2>Login</h2>
+<form action="/formSubmitManager" method="post">
 
-    <form action="/loginGet" method="post">
-        <label for="username">Uživatelské jméno:</label>
-        <input type="text" id="username" name="username" required>
+    <label for="username">Uživatelské jméno manažera:</label>
+    <input type="text" id="username" name="username" required>
 
-        <label for="password">Heslo:</label>
-        <input type="password" id="password" name="password" required>
+    <label for="userPw">Heslo:</label>
+    <input type="password" id="userPw" name="userPw" required>
 
-        <button type="submit">Přihlásit se</button>
-    </form>
+    <!-- This is a comment
+    <label for="passwordConfirm">Potvrzení hesla:</label>
+    <input type="password" id="passwordConfirm" name="passwordConfirm" required>
+    -->
 
-    <a href="/welcome"><button class="return-button">Zpátky na úvod</button></a>
-</div>
+    <label for="locationID">ID Jídelny:</label>
+    <input type="number" id="locationID" name="locationID" required>
 
+    <button type="submit">Registrace</button>
+</form>
+
+<a class="back-button" th:href="@{/adminview}"><button>Zrušení registrace</button></a>
 </body>
 </html>
