@@ -4,6 +4,7 @@ import com.ppro.pproprojectfinal.model.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,47 +63,55 @@ public class WebController {
     @GetMapping("/userView")
     public String userView(HttpSession session, Model model) {
         if (session.getAttribute("roleID") != null) {
+            if (foodByUserRepository.findByUserId((Long)session.getAttribute("userID"))!= null) {
             String tempString = foodByUserRepository.findByUserId((Long)session.getAttribute("userID")).getFoodListString();
             String[] foodArray = tempString.split(",");
-            System.out.println(foodArray[0]);
 
-            List<Food> foodList = new ArrayList<>();
-            List<Food> foodListUser = new ArrayList<>();
-            Food todaysFood = null;
+                List<Food> foodList = new ArrayList<>();
+                List<Food> foodListUser = new ArrayList<>();
+                Food todaysFood = null;
 
-            for (int i = 0; i < foodArray.length; i++){
-                Food food = foodRepository.findByid((Integer.parseInt(foodArray[i])));
-                System.out.println(food.getFoodName());
-                foodList.add(food);
+                for (int i = 0; i < foodArray.length; i++) {
+                    Food food = foodRepository.findByid((Integer.parseInt(foodArray[i])));
+                    System.out.println(food.getFoodName());
+                    foodList.add(food);
+                }
+
+                for (Food food : foodList) {
+                    LocalDate databaseLocalDate = food.getFoodDate().toLocalDate();
+
+                    LocalDate currentDate = LocalDate.now();
+
+                    int comparisonResult = databaseLocalDate.compareTo(currentDate);
+
+                    if (comparisonResult < 0) {
+                        System.out.println("The database date is before the current date.");
+                        foodRepository.delete(food);
+                    } else if (comparisonResult > 0) {
+                        foodListUser.add(food);
+                        System.out.println("The database date is after the current date.");
+                    } else {
+                        todaysFood = food;
+                        foodListUser.add(food);
+                    }
+
+
+                    if (todaysFood == null || session.getAttribute("roleID") == null) {
+                        model.addAttribute("todayFood", "nemáte objednáno");
+                    } else {
+                        model.addAttribute("todayFood", todaysFood.getFoodName() + " za " + todaysFood.getFoodPrice() + "kč");
+                    }
+                }
+                session.setAttribute("userFoodList", foodListUser);
             }
-
-            for (Food food : foodList) {
-                LocalDate databaseLocalDate = food.getFoodDate().toLocalDate();
-
-                LocalDate currentDate = LocalDate.now();
-
-                int comparisonResult = databaseLocalDate.compareTo(currentDate);
-
-                if (comparisonResult < 0) {
-                    System.out.println("The database date is before the current date.");
-                } else if (comparisonResult > 0) {
-                    foodListUser.add(food);
-                    System.out.println("The database date is after the current date.");
-                } else {
-                    todaysFood = food;
-                    foodListUser.add(food);
-                }
-
-
-                if (todaysFood == null || session.getAttribute("roleID") == null) {
-                    model.addAttribute("todayFood", "nemáte obědnáno");
-                } else {
-                    model.addAttribute("todayFood", todaysFood.getFoodName() + " za " + todaysFood.getFoodPrice() + "kč");
-                }
+            else {
+                model.addAttribute("todayFood", "nemáte objednáno");
+                List<Food> foodDefaultList = new ArrayList<>();
+                List<Food> foodTempList = foodRepository.findAllByLocationID((int)session.getAttribute("locationID"));
+                foodDefaultList.add(foodTempList.getLast());
+                session.setAttribute("userFoodList", foodDefaultList);
             }
             //order list podle data
-            session.setAttribute("userFoodList", foodListUser);
-
             model.addAttribute("username", session.getAttribute("username"));
             model.addAttribute("role", session.getAttribute("role"));
             model.addAttribute("locationName", session.getAttribute("locationName"));
@@ -132,6 +141,34 @@ public class WebController {
 
     //TODO PRIDAT OPRAVNENI
 
+
+    @GetMapping("/viewLocationFoods")
+    public String viewFoods(HttpSession session, Model model){
+        List<String> itemList =  new ArrayList<>();
+        for (Food food : (List<Food>)foodRepository.findAllByLocationID((int)session.getAttribute("locationID"))){
+            LocalDate databaseLocalDate = food.getFoodDate().toLocalDate();
+
+            LocalDate currentDate = LocalDate.now();
+
+            int comparisonResult = databaseLocalDate.compareTo(currentDate);
+
+            if (comparisonResult < 0) {
+                foodRepository.delete(food);
+                System.out.println("The database date is before the current date.");
+            } else if (comparisonResult > 0) {
+                System.out.println("The database date is after the current date.");
+            } else {
+                itemList.add(food.getFoodName()+ " za: " + food.getFoodPrice()+"kč " + "dne: " + food.getFoodDate().toString() + " " + food.getPortionNumber() + "ks");
+            }
+        }
+        if (itemList.isEmpty()){
+            itemList.add("dneska nejsou žádná jídla");
+            model.addAttribute("itemList", itemList);
+        }
+        else
+            model.addAttribute("itemList", itemList);
+        return "LocationFoodsView";
+    }
 
     @GetMapping("/welcome")
     public String welcome() {
@@ -171,7 +208,7 @@ public class WebController {
     public String foodByUserGet(HttpSession session, Model model) {
         List<String> itemList =  new ArrayList<>();
         for (Food food : (List<Food>) session.getAttribute("userFoodList"))
-            itemList.add(food.getFoodName()+ " za: " + food.getFoodPrice()+"kč " + "dne: " + food.getFoodDate().toString() + " " + food.getFoodDescription() );
+            itemList.add(food.getFoodName()+ " za: " + food.getFoodPrice()+"kč " + "dne: " + food.getFoodDate().toString() + " popis: " + food.getFoodDescription() );
         model.addAttribute("itemList", itemList);
         return "foodByUserView";
     }
@@ -200,5 +237,10 @@ public class WebController {
         // Redirect to a page or return a view as needed
         return "redirect:/userView";
     }*/
+
+    @GetMapping("/error")
+    public String error() {
+        return "redirect:/logout";
+    }
 
 }

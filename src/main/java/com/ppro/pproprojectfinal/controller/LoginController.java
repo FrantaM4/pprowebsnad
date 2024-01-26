@@ -30,36 +30,37 @@ public class LoginController {
     public String loginUser(@RequestParam String username, @RequestParam String password, HttpSession session) {
         User user = userRepository.findByUsername(username);
 
-        String tempRole ="";
-        String tempLokace ="";
-
-        switch (user.getRoleID()){
-            case 1:
-                tempRole = "Admin";
-                break;
-            case 2:
-                tempRole = "Manažer";
-                break;
-            case 3:
-                tempRole = "Zaměstnanec";
-                break;
-            case 4:
-                tempRole = "Uživatel";
-                break;
-        }
-
-        Location location = locationRepository.findByid(user.getLocationID());
-
-        tempLokace= location.getLocationName();
-
-        session.setAttribute("username",username);
-        session.setAttribute("role",tempRole);
-        session.setAttribute("roleID",user.getRoleID());
-        session.setAttribute("locationName",tempLokace);
-        session.setAttribute("locationID",user.getLocationID());
-        session.setAttribute("userID",user.getId());
-
         if (user != null && password.equals(user.getUserPw())) {
+
+
+            String tempRole ="";
+            String tempLokace ="";
+
+            switch (user.getRoleID()){
+                case 1:
+                    tempRole = "Admin";
+                    break;
+                case 2:
+                    tempRole = "Manažer";
+                    break;
+                case 3:
+                    tempRole = "Zaměstnanec";
+                    break;
+                case 4:
+                    tempRole = "Uživatel";
+                    break;
+            }
+
+            Location location = locationRepository.findByid(user.getLocationID());
+
+            tempLokace= location.getLocationName();
+
+            session.setAttribute("username",username);
+            session.setAttribute("role",tempRole);
+            session.setAttribute("roleID",user.getRoleID());
+            session.setAttribute("locationName",tempLokace);
+            session.setAttribute("locationID",user.getLocationID());
+            session.setAttribute("userID",user.getId());
             if (user.getRoleID() == 1){
                 return "redirect:/adminView";
             }
@@ -79,7 +80,7 @@ public class LoginController {
             return "redirect:/welcome";
         } else {
              //Failed login, handle appropriately (e.g., show error message)
-            return "redirect:/login?error";
+            return "redirect:/logout";
         }
     }
     @GetMapping("/logout")

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>managerView</title>
+    <link rel="stylesheet" href="style.css"> <!-- Include your custom style file -->
+</head>
+<body>
+
+<div class="simple-container">
+
+    <a href="/employeeView"><button class="top-right-button">Zpět na vaši stránku</button></a>
+    <h2>Nabízená jídla</h2>
+    <ul>
+        <!-- Use th:each to iterate over the itemList -->
+        <li th:each="item : ${itemList}" th:text="${item}"></li>
+    </ul>
+
+</div>
+
+</body>
+</html>

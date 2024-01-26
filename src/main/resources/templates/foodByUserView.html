@@ -4,18 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>managerView</title>
-    <link rel="stylesheet" href="style.css"> <!-- Include your custom style file -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .center-container {
+            text-align: center;
+        }
+
+        .centered-list {
+            list-style: none;
+            padding: 0;
+            margin: auto;
+            display: inline-block;
+        }
+
+        .centered-list li {
+            margin-bottom: 10px; /* Optional: Add margin between list items */
+        }
+
+
+
+        .centered-list li strong {
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="simple-container">
 
     <a href="/userView"><button class="top-right-button">Zpět na vaši stránku</button></a>
     <h2>Momentální objednávky:</h2>
-    <ul>
-        <!-- Use th:each to iterate over the itemList -->
-        <li th:each="item : ${itemList}" th:text="${item}"></li>
-    </ul>
+    <div class="center-container">
+        <ul class="centered-list">
+
+        <strong><li th:each="item : ${itemList}" th:text="${item}"></li></strong>
+        </ul>
+    </div>
 
     <div class="middle-buttons">
         <a href="/foodByUserModify"><button class="return-button">Překopat objednávky</button></a>

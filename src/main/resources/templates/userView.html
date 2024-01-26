@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdminView</title>
+    <title>UserView</title>
     <link rel="stylesheet" href="style.css"> <!-- Include your custom style file -->
 </head>
 <body>
@@ -11,11 +11,11 @@
 <div class="simple-container">
     <h2>Vítej <span th:text="${username}"></span>, v roli: <span th:text="${role}"></span>, ládování v: <span th:text="${locationName}"></span> </h2>
 
-    <a href="/logout"><button class="top-right-button">TODO poradny logout</button></a>
+    <a href="/logout"><button class="top-right-button">Odhlásit se</button></a>
 
     <h2>Vaše dnešní pochoutka: <span th:text="${todayFood}"></span></h2>
 
-    <a href="/foodByUserGet"><button class="return-button">Zobrazit vaše objednávky</button></a>
+    <a href="/foodByUserGet"><button class="top-right-button">Zobrazit vaše objednávky</button></a>
 
 
     <div class="middle-buttons">

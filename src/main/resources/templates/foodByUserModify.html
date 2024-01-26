@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>managerView</title>
     <link rel="stylesheet" href="style.css"> <!-- Include your custom style file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .center-container {
+            text-align: center;
+        }
+
+        .centered-list {
+            list-style: none;
+            padding: 0;
+            margin: auto;
+            display: inline-block;
+        }
+
+        .centered-list li {
+            margin-bottom: 10px; /* Optional: Add margin between list items */
+        }
+
+
+
+        .centered-list li strong {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -14,18 +40,23 @@
 
 
     <form action="/foodListProcess" method="post">
-        <h2>Select Items:</h2>
-        <ul>
+        <h2>Vyber pochoutky:</h2>
+        <h3>Zaškrtni co hrdlo ráčí</h3>
+        <div class="center-container">
+            <ul class="centered-list">
             <!-- Use th:each to iterate over the itemList -->
-            <li th:each="food : ${itemList}">
+            <li th:each="food : ${itemList}"><strong>
                 <!-- Create a checkbox for each item -->
                 <input type="checkbox" th:id="${'itemCheckbox-' + #strings.replace(food.getId(), ' ', '_')}"
                        th:name="selectedItems" th:value="${food.getId()}" />
-                <label th:for="${'itemCheckbox-' + #strings.replace(food.getId(), ' ', '_')}" th:text="${food.getFoodName()}"></label>
+                <label th:for="${'itemCheckbox-' + #strings.replace(food.getId(), ' ', '_')}" th:text="${food.getFoodName()
+                + ' za ' + food.getFoodPrice() + ' kč, dne: '+ food.getFoodDate().toString()+ ' popis: ' + food.getFoodDescription()}"></label>
+            </strong>
             </li>
-        </ul>
-            <a href="/foodListProcess"><button class="return-button" type="submit">Uložit změny</button></a>
+            </ul>
 
+        </div>
+        <a href="/foodListProcess"><button class="return-button" type="submit">Uložit změny</button></a>
     </form>
 </div>
 
